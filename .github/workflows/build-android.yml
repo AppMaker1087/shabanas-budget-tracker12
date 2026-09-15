@@ -1,0 +1,30 @@
+name: Build Shabana's Budget Tracker
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get my files
+        uses: actions/checkout@v4
+
+      - name: Build Android APK
+        uses: love-actions/love-actions-android@v2
+        with:
+          app-name: "Shabana's Budget Tracker"
+          bundle-id: "com.mano.shabanabudgettracker"
+          love-ref: "11.5"
+          love-package: "./game.love"
+          product-name: "ShabanasBudgetTracker"
+          version-string: "1.0.0"
+          version-code: 1
+          output-folder: "./build"
+
+      - name: Give me the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Shabanas-Budget-Tracker-APK
+          path: "./build/*.apk"
