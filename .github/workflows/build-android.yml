@@ -1,4 +1,4 @@
-name: Build Shabana's Budget Tracker
+name: Build Shabana's Budget Tracker APK
 
 on:
   workflow_dispatch:
@@ -8,23 +8,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get my files
+      - name: Free up space
+        uses: endersonmenezes/free-disk-space@v2
+        with:
+          remove_android: true
+          remove_dotnet: true
+          remove_haskell: true
+          remove_tool_cache: true
+          remove_swap: true
+          remove_packages: "azure-cli google-cloud-cli microsoft-edge-stable google-chrome-stable firefox postgresql* temurin-*"
+
+      - name: Checkout
         uses: actions/checkout@v4
 
       - name: Build Android APK
         uses: love-actions/love-actions-android@v2
         with:
-          app-name: "Shabana's Budget Tracker"
-          bundle-id: "com.mano.shabanabudgettracker"
-          love-ref: "11.5"
-          love-package: "./game.love"
-          product-name: "ShabanasBudgetTracker"
-          version-string: "1.0.0"
-          version-code: 1
-          output-folder: "./build"
+          app_name: "Shabanas Budget Tracker"
+          bundle_id: "com.mano.shabanabudgettracker"
+          love_version: "11.5"
+          game_path: "game.love"
 
-      - name: Give me the APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Shabanas-Budget-Tracker-APK
-          path: "./build/*.apk"
+          path: "**/*.apk"
